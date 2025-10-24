@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 9
+names: ['Alopecia Areata', 'Contact Dermatitis', 'Folliculitis', 'Head_Lice', 'Psoriasis', 'dandruff', 'dry hair', 'grey hair', 'low hair density']
+
+roboflow:
+  workspace: hari-k7fyy
+  project: hair-scalp-analysis-qbdnk
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/hari-k7fyy/hair-scalp-analysis-qbdnk/dataset/1

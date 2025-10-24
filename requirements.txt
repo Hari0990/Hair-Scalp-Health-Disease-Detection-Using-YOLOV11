@@ -1,0 +1,63 @@
+# =============================================================================
+# Scalp Hair Disease Detection System - Requirements
+# Python 3.8+ Required
+# =============================================================================
+
+# Core Deep Learning Framework
+ultralytics>=8.0.0          # YOLOv11 framework
+torch>=2.0.0                # PyTorch deep learning
+torchvision>=0.15.0         # Computer vision utilities
+
+# Computer Vision & Image Processing
+opencv-python>=4.8.0        # OpenCV for image processing
+opencv-contrib-python>=4.8.0  # Additional OpenCV modules
+Pillow>=10.0.0              # PIL for image handling
+
+# Data Processing & Visualization
+numpy>=1.24.0               # Numerical computing
+pandas>=2.0.0               # Data manipulation
+matplotlib>=3.7.0           # Plotting and visualization
+seaborn>=0.12.0             # Statistical visualization
+
+# Web Frameworks (Install based on your choice)
+
+# === Option 1: Streamlit (Recommended for Demos) ===
+streamlit>=1.28.0           # Fast, interactive web apps
+
+# === Option 2: Flask (Best for Production) ===
+Flask>=3.0.0                # Lightweight web framework
+Flask-CORS>=4.0.0           # Cross-Origin Resource Sharing
+Werkzeug>=3.0.0             # WSGI utility library
+
+# === Option 3: Gradio (Easiest Setup) ===
+gradio>=4.0.0               # Quick ML interfaces
+
+# Utility Libraries
+python-dotenv>=1.0.0        # Environment variable management
+tqdm>=4.66.0                # Progress bars
+python-multipart>=0.0.6     # File upload handling (for Flask)
+
+# Optional: GPU Support (if you have NVIDIA GPU)
+# Uncomment the lines below and comment out CPU versions above
+# torch>=2.0.0+cu118         # PyTorch with CUDA 11.8
+# torchvision>=0.15.0+cu118  # Torchvision with CUDA 11.8
+
+# =============================================================================
+# Installation Instructions:
+# 
+# 1. Create virtual environment:
+#    python -m venv venv
+#
+# 2. Activate virtual environment:
+#    Windows: .\venv\Scripts\activate
+#    Linux/Mac: source venv/bin/activate
+#
+# 3. Install all dependencies:
+#    pip install -r requirements.txt
+#
+# 4. Or install selectively:
+#    pip install ultralytics torch opencv-python Pillow numpy streamlit
+#
+# 5. Run or Deploy the app:
+#    streamlit run app_streamlit.py
+# =============================================================================

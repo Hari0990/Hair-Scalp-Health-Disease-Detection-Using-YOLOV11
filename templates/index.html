@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalp Hair Disease Detection System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .upload-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .upload-box {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 60px 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .upload-box:hover {
+            background: #f0f0ff;
+            border-color: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .upload-box.drag-over {
+            background: #e8e8ff;
+            border-color: #4c51bf;
+        }
+        
+        .upload-box h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        
+        .upload-box p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .upload-box input[type="file"] {
+            display: none;
+        }
+        
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        #imagePreview {
+            margin-top: 30px;
+            display: none;
+        }
+        
+        #preview {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .slider-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #333;
+        }
+        
+        .slider-container span {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 15px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .results-section {
+            display: none;
+            margin-top: 40px;
+        }
+        
+        .results-section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 2em;
+            text-align: center;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .result-image-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .result-image-container h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .result-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .detections-container h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+        
+        .detection-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .detection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+        
+        .detection-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        
+        .detection-card p {
+            margin: 10px 0;
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+        
+        .detection-card strong {
+            font-weight: 600;
+        }
+        
+        .confidence-high {
+            color: #4ade80;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+        
+        .confidence-medium {
+            color: #fbbf24;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+        
+        .confidence-low {
+            color: #f87171;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+        
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #667eea;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        
+        .info-banner {
+            background: #e0e7ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .info-banner h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .info-banner p {
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        
+        .no-detections {
+            text-align: center;
+            padding: 40px;
+            background: #fef3c7;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .no-detections h3 {
+            color: #d97706;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .no-detections p {
+            color: #92400e;
+            font-size: 1.1em;
+        }
+        
+        @media (max-width: 768px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .upload-box {
+                padding: 40px 20px;
+            }
+        }
+        
+        .footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            margin: 10px 0;
+            opacity: 0.8;
+        }
+        
+        .disclaimer {
+            background: #fef2f2;
+            border: 2px solid #fca5a5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .disclaimer h3 {
+            color: #dc2626;
+            margin-bottom: 10px;
+        }
+        
+        .disclaimer p {
+            color: #7f1d1d;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🔬 Scalp Hair Disease Detection System</h1>
+            <p>AI-Powered Diagnosis using YOLOv11 Deep Learning Model</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Info Banner -->
+            <div class="info-banner">
+                <h3>📋 About This System</h3>
+                <p>
+                    This advanced AI system uses YOLOv11 deep learning to detect <strong>9 different scalp and hair conditions</strong>. 
+                    Upload a clear image of the scalp or hair area to receive instant analysis with detailed medical information.
+                </p>
+            </div>
+            
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📸</div>
+                    <h2>Upload Scalp Image</h2>
+                    <p>Click here or drag and drop an image</p>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #999;">
+                        Supported formats: JPG, JPEG, PNG, BMP (Max: 16MB)
+                    </p>
+                    <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
+                </div>
+                
+                <!-- Image Preview -->
+                <div id="imagePreview">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📷 Image Preview</h3>
+                    <img id="preview" alt="Preview">
+                </div>
+                
+                <!-- Confidence Slider -->
+                <div class="slider-container">
+                    <label for="confidenceSlider">
+                        🎯 Confidence Threshold: <span id="confidenceValue">0.25</span>
+                    </label>
+                    <input type="range" id="confidenceSlider" class="slider" 
+                           min="0" max="1" step="0.05" value="0.25" 
+                           oninput="document.getElementById('confidenceValue').textContent = this.value">
+                    <p style="margin-top: 10px; color: #666; font-size: 0.95em;">
+                        Lower values detect more objects, higher values are more selective
+                    </p>
+                </div>
+                
+                <!-- Analyze Button -->
+                <div style="text-align: center;">
+                    <button class="btn" id="analyzeBtn" onclick="analyzeImage()" disabled>
+                        🔍 Analyze Image
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <div class="loading-text">🔄 Analyzing image... Please wait...</div>
+            </div>
+            
+            <!-- Medical Disclaimer -->
+            <div class="disclaimer">
+                <h3>⚠️ Important Medical Disclaimer</h3>
+                <p>
+                    This AI system is designed for <strong>educational and informational purposes only</strong>. 
+                    It is <strong>NOT</strong> a substitute for professional medical advice, diagnosis, or treatment. 
+                    Always seek the advice of qualified healthcare providers with any questions regarding medical conditions.
+                </p>
+            </div>
+            
+            <!-- Results Section -->
+            <div class="results-section" id="results">
+                <h2>📊 Detection Results</h2>
+                <div class="results-grid">
+                    <div class="result-image-container">
+                        <h3>🖼️ Annotated Image</h3>
+                        <img id="resultImage" class="result-image" alt="Result">
+                    </div>
+                    <div class="detections-container">
+                        <h3 id="detectionsTitle">🔬 Detected Conditions</h3>
+                        <div id="detectionsContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Scalp Hair Disease Detection System</strong></p>
+            <p>Powered by YOLOv11 | Built with Flask & AI</p>
+            <p>© 2025 - Educational Project for Big Data Analytics using AI</p>
+        </div>
+    </div>
+    
+    <script>
+        let selectedFile = null;
+        
+        // File input handler
+        function previewImage(event) {
+            selectedFile = event.target.files[0];
+            if (selectedFile) {
+                // Validate file size
+                if (selectedFile.size > 16 * 1024 * 1024) {
+                    alert('❌ File too large! Maximum size is 16MB.');
+                    return;
+                }
+                
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/bmp'];
+                if (!validTypes.includes(selectedFile.type)) {
+                    alert('❌ Invalid file type! Please upload JPG, PNG, or BMP image.');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('analyzeBtn').disabled = false;
+                }
+                reader.readAsDataURL(selectedFile);
+            }
+        }
+        
+        // Drag and drop handlers
+        const uploadBox = document.getElementById('uploadBox');
+        
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.classList.add('drag-over');
+        });
+        
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.classList.remove('drag-over');
+        });
+        
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.classList.remove('drag-over');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('fileInput').files = files;
+                previewImage({ target: { files: files } });
+            }
+        });
+        
+        // Analyze image function
+        async function analyzeImage() {
+            if (!selectedFile) return;
+            
+            // Show loading, hide results
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('analyzeBtn').disabled = true;
+            
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('confidence', document.getElementById('confidenceSlider').value);
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayResults(data);
+                } else {
+                    alert('❌ Error: ' + (data.error || 'Unknown error occurred'));
+                }
+            } catch (error) {
+                alert('❌ Error analyzing image: ' + error.message);
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        }
+        
+        // Display results function
+        function displayResults(data) {
+            // Set result image
+            document.getElementById('resultImage').src = 'data:image/png;base64,' + data.result_image;
+            
+            const container = document.getElementById('detectionsContainer');
+            const title = document.getElementById('detectionsTitle');
+            
+            title.textContent = `🔬 Detected Conditions (${data.num_detections})`;
+            
+            if (data.detections.length === 0) {
+                container.innerHTML = `
+                    <div class="no-detections">
+                        <h3>✅ No Diseases Detected</h3>
+                        <p>The AI did not detect any scalp or hair conditions at the current confidence threshold.</p>
+                        <p style="margin-top: 15px;">Try lowering the confidence threshold to detect more conditions.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '';
+                data.detections.forEach((det, index) => {
+                    const confClass = det.confidence >= 70 ? 'confidence-high' : 
+                                     det.confidence >= 40 ? 'confidence-medium' : 'confidence-low';
+                    
+                    const emoji = det.confidence >= 70 ? '🟢' : 
+                                 det.confidence >= 40 ? '🟡' : '🔴';
+                    
+                    const card = document.createElement('div');
+                    card.className = 'detection-card';
+                    card.innerHTML = `
+                        <h4>${emoji} Detection #${index + 1}: ${det.disease}</h4>
+                        <p><strong>Confidence Score:</strong> <span class="${confClass}">${det.confidence}%</span></p>
+                        <p><strong>📝 Description:</strong> ${det.info.description || 'N/A'}</p>
+                        <p><strong>🩺 Symptoms:</strong> ${det.info.symptoms || 'N/A'}</p>
+                        <p><strong>💊 Treatment:</strong> ${det.info.treatment || 'N/A'}</p>
+                        <p><strong>⚠️ Severity:</strong> ${det.info.severity || 'N/A'}</p>
+                        <p><strong>👨‍⚕️ Consult:</strong> ${det.info.specialist || 'Healthcare Professional'}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            
+            // Show results section
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
