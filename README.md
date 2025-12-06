@@ -16,7 +16,7 @@
 
 ---
 
-## 📌 Overview
+## Overview
 **Hair-Scalp-Health-Disease-Detection-Using-YOLOV11** is a deep learning–powered medical AI application that performs **real-time scalp and hair disease detection from clinical images**, providing:
 
 ✔ Bounding-box predictions  
@@ -30,19 +30,19 @@ Built using **YOLOv11 + Streamlit**, this system demonstrates how AI can support
 
 ---
 
-## 🚀 Features
+## Features
 | Feature Category | Capability |
 |------------------|------------|
-| 🔍 Disease Detection | Real-time localization using YOLOv11 |
-| 🩺 Medical Classes | 9 conditions (Alopecia, Dandruff, Psoriasis, Folliculitis, etc.) |
-| 🔥 Explainability | Grad-CAM heatmap visualization |
-| 📈 Training Metrics | Precision, Recall, mAP, Loss curves |
-| 📊 Confidence Analysis | Confidence score distribution plots |
-| 🧾 Clinical Context | Symptoms, treatments, severity & recommended specialists |
+| Disease Detection | Real-time localization using YOLOv11 |
+| Medical Classes | 9 conditions (Alopecia, Dandruff, Psoriasis, Folliculitis, etc.) |
+| Explainability | Grad-CAM heatmap visualization |
+| Training Metrics | Precision, Recall, mAP, Loss curves |
+| Confidence Analysis | Confidence score distribution plots |
+| Clinical Context | Symptoms, treatments, severity & recommended specialists |
 
 ---
 
-## 🖥 UI & Output Showcase
+## UI & Output Showcase
 | Detection Results | Heatmap Visualization |
 |------------------|----------------------|
 | <img src="images/ui_detection_results.png" width="100%"> | <img src="images/ui_heatmap.png" width="100%"> |
@@ -53,7 +53,7 @@ Built using **YOLOv11 + Streamlit**, this system demonstrates how AI can support
 
 ---
 
-## 📂 Project Folder Structure
+## Project Folder Structure
 > Below is the complete repository layout for developer reference:
 
 ```bash
@@ -92,7 +92,7 @@ Scalp-Hair-Disease-Detection/
 └── README.md                       # Project documentation
 ```
 
-## 🔧 Installation & Setup
+## Installation & Setup
 
 ```bash
 git clone (https://github.com/Hari0990/Hair-Scalp-Health-Disease-Detection-Using-YOLOV11)
