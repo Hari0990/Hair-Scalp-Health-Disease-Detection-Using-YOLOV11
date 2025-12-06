@@ -1,4 +1,4 @@
-<h1 align="center">🧠 Scalp Hair Disease Detection System</h1>
+<h1 align="center"> Scalp Hair Disease Detection System</h1>
 <p align="center">
   <b>AI-powered diagnosis & explainability for scalp and hair disorders using YOLOv11</b>
 </p>
