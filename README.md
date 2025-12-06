@@ -1,7 +1,7 @@
 # Hair-Scalp-Health-Disease-Detection-Using-YOLOV11
 🔬 Scalp Hair Disease Detection System
 <div align="center">
-Project Banner
+![image alt](image url)
 
 Python
 Streamlit
